@@ -18,13 +18,18 @@ class _ImageInputState extends State<ImageInput> {
     final ImagePicker _picker = ImagePicker();
     Future<void>_takePicture() async{
       final imageFile = await _picker.pickImage(source: ImageSource.camera, maxHeight: 600);
+     if(imageFile == null){
+       return;
+     }
 
       setState() {
         // TODO: implement setState
-        _storedImage = imageFile as File?;
+        _storedImage = imageFile as File;
       }
+      // _storedImage is returning null so we are not able to have a preview
+     // print(' $_storedImage is an image');
       final appDir = await syspaths.getApplicationDocumentsDirectory();
-      final fileName =  path.basename(imageFile!.path);
+      final fileName =  path.basename(imageFile.path);
       //final savedImage = await imageFile.copy('${appDir.path}/$fileName');
       final savedImage = await File(imageFile.path).copy('${appDir.path}/$fileName');
 
@@ -33,6 +38,7 @@ class _ImageInputState extends State<ImageInput> {
 
   @override
   Widget build(BuildContext context) {
+      //print(_storedImage);
     return Row(
       children: [
         Container(
@@ -51,10 +57,7 @@ class _ImageInputState extends State<ImageInput> {
             icon: Icon(Icons.camera),
               label: Text('Take picture'),
               textColor: Theme.of(context).primaryColor,
-              onPressed:
-              _takePicture,
-
-
+              onPressed: _takePicture,
           ),
         )
       ],

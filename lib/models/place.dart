@@ -13,7 +13,7 @@ class Place{
  final String id;
   final String title;
   final PlaceLocation? location;
-  final File image; // to use file import dart:io
+  final File? image; // to use file import dart:io
 
 Place({
    required this.id,
